@@ -16,14 +16,27 @@ interface LoginPayload {
   password: string;
 }
 
+const normalizeAuthResponse = (payload: unknown): AuthResponse => {
+  const body = payload as { data?: AuthResponse; token?: string; user?: AuthResponse['user']; provider?: AuthResponse['provider'] };
+  if (body.data) {
+    return body.data;
+  }
+
+  return {
+    token: body.token ?? '',
+    user: body.user as AuthResponse['user'],
+    provider: body.provider as AuthResponse['provider']
+  };
+};
+
 export const authApi = {
   async register(payload: RegisterPayload): Promise<AuthResponse> {
     const { data } = await apiClient.post<ApiResponse<AuthResponse>>('/auth/register', payload);
-    return data.data;
+    return normalizeAuthResponse(data);
   },
 
   async login(payload: LoginPayload): Promise<AuthResponse> {
-    const { data } = await apiClient.post<ApiResponse<AuthResponse>>('/auth/login', payload);
-    return data.data;
+    const { data } = await apiClient.post('/auth/login', payload);
+    return normalizeAuthResponse(data);
   }
 };

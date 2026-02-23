@@ -44,7 +44,8 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const result = await authApi.login(input);
-          localStorage.setItem('cigali_token', result.token);
+          localStorage.setItem('token', result.token);
+          localStorage.removeItem('cigali_token');
           set({ token: result.token, user: result.user, provider: result.provider, isLoading: false });
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Failed to login';
@@ -57,7 +58,8 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const result = await authApi.register(input);
-          localStorage.setItem('cigali_token', result.token);
+          localStorage.setItem('token', result.token);
+          localStorage.removeItem('cigali_token');
           set({ token: result.token, user: result.user, provider: result.provider, isLoading: false });
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Failed to register';
@@ -67,6 +69,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: () => {
+        localStorage.removeItem('token');
         localStorage.removeItem('cigali_token');
         set({ token: null, user: null, provider: null, error: null });
       },

@@ -9,6 +9,11 @@ export const authController = {
 
   async login(req: Request, res: Response): Promise<void> {
     const result = await authService.login(req.body);
-    res.json({ success: true, data: result });
+    res.json({
+      success: true,
+      token: result.token,
+      user: result.user,
+      provider: result.provider
+    });
   }
 };
