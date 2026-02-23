@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { MarketingLayout } from '@/layouts/MarketingLayout';
-import { AdminPage } from '@/pages/admin/AdminPage';
+import AdminPage from '@/pages/admin/AdminPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { AppointmentsPage } from '@/pages/appointments/AppointmentsPage';

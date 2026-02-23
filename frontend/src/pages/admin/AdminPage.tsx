@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Table } from '@/components/ui/Table';
 import { useCigaliData } from '@/hooks/useCigaliData';
 
-export const AdminPage = () => {
+const AdminPage = () => {
   const { loading, patients, appointments, invoices, staff } = useCigaliData();
 
   const clinics = [
@@ -103,3 +103,5 @@ export const AdminPage = () => {
     </div>
   );
 };
+
+export default AdminPage;
