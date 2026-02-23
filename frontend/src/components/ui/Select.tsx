@@ -7,18 +7,18 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 export const Select = ({ label, error, className, children, ...props }: SelectProps) => (
-  <label className="flex w-full flex-col gap-2 text-sm text-slate-700">
-    {label && <span className="font-medium">{label}</span>}
+  <label className="flex w-full flex-col gap-2 text-sm text-black">
+    {label && <span className="font-medium text-black/80">{label}</span>}
     <select
       className={cn(
-        'h-11 w-full rounded-xl border border-borderSoft bg-white px-3.5 text-slate-900 outline-none transition-all duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
-        error && 'border-rose-400 focus:border-rose-500 focus:ring-rose-100',
+        'h-11 w-full rounded-[20px] border border-white/20 bg-white/10 px-3.5 text-black outline-none backdrop-blur-xl transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] focus:border-cobalt focus:ring-2 focus:ring-cobalt/30',
+        error && 'border-rose-400 focus:border-rose-500 focus:ring-rose-300/40',
         className
       )}
       {...props}
     >
       {children}
     </select>
-    {error && <span className="text-xs text-rose-600">{error}</span>}
+    {error && <span className="text-xs text-rose-500">{error}</span>}
   </label>
 );

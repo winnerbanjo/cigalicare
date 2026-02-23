@@ -14,6 +14,7 @@ import { PricingPage } from '@/pages/marketing/PricingPage';
 import { PatientProfilePage } from '@/pages/patients/PatientProfilePage';
 import { PatientsPage } from '@/pages/patients/PatientsPage';
 import { SettingsPage } from '@/pages/settings/SettingsPage';
+import { StaffPage } from '@/pages/staff/StaffPage';
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
           { path: 'appointments', element: <AppointmentsPage /> },
           { path: 'inventory', element: <InventoryPage /> },
           { path: 'billing', element: <BillingPage /> },
+          { path: 'staff', element: <StaffPage /> },
           { path: 'settings', element: <SettingsPage /> }
         ]
       }

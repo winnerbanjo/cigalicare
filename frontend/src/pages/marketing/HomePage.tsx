@@ -7,50 +7,31 @@ import { useAuthStore } from '@/store/auth.store';
 
 const featureCards = [
   {
-    icon: '🧑‍⚕️',
-    title: 'Patient Management',
-    description: 'Create and manage patient records with provider-scoped data boundaries and clean workflows.'
+    title: 'Smart Patient Timeline',
+    description: 'Chronological clinical intelligence across visits, labs, notes, diagnoses, and prescriptions.'
   },
   {
-    icon: '🗓️',
-    title: 'Appointments',
-    description: 'Coordinate care schedules, updates, and visit status with a fast timeline-ready system.'
+    title: 'Doctor Mission Control',
+    description: 'Daily schedule, urgent alerts, follow-up automation, and financial visibility in one cockpit.'
   },
   {
-    icon: '💊',
-    title: 'Pharmacy & Inventory',
-    description: 'Track medication stock and operational inventory in a unified healthcare operations workspace.'
+    title: 'Operational BI',
+    description: 'Revenue trend analysis, retention indicators, and missed-visit loss tracking for clinic performance.'
   },
   {
-    icon: '🔐',
-    title: 'Multi-tenant Security',
-    description: 'Every core record is isolated by provider with role-based controls and strict access boundaries.'
+    title: 'Concierge Workflows',
+    description: 'VIP tiering, priority scheduling, direct care coordination, and private medical operations.'
   }
 ];
 
 const pricingPlans = [
-  {
-    name: 'Starter',
-    price: '$49',
-    description: 'Small practices starting digital care operations.'
-  },
-  {
-    name: 'Growth',
-    price: '$129',
-    description: 'Clinics scaling patient volume and team operations.'
-  },
-  {
-    name: 'Pro',
-    price: '$249',
-    description: 'Advanced operational controls and premium support.',
-    highlighted: true
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    description: 'Network-scale deployments with tailored onboarding.'
-  }
+  { name: 'Starter', price: '$49', description: 'Small practices starting digital care operations.' },
+  { name: 'Growth', price: '$129', description: 'Clinics scaling patient volume and team operations.' },
+  { name: 'Pro', price: '$249', description: 'Advanced operational controls and premium support.', highlighted: true },
+  { name: 'Enterprise', price: 'Custom', description: 'Network-scale deployments with tailored onboarding.' }
 ];
+
+const services = ['Concierge Care', 'Diagnostics', 'Preventive Health', 'Chronic Care'];
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -69,161 +50,127 @@ export const HomePage = () => {
       });
       navigate('/app', { replace: true });
     } catch {
-      setDemoError('Demo login unavailable. Verify MongoDB and seeded users.');
+      setDemoError('Demo login unavailable. Verify backend connectivity.');
     } finally {
       setDemoLoadingType(null);
     }
   };
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-20 pt-8 md:px-6 md:pt-14">
-      <section className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-        <div className="space-y-5">
-          <Badge variant="info">Healthcare SaaS Infrastructure</Badge>
-          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-5xl">
-            The operating system for modern healthcare.
+    <div className="mx-auto w-full max-w-7xl px-4 pb-20 md:px-6">
+      <section className="grid items-center gap-10 py-10 md:grid-cols-2 md:py-14">
+        <div className="space-y-6">
+          <Badge variant="info">Flagship Healthcare OS</Badge>
+          <h1 className="text-4xl font-bold leading-tight tracking-[0.5px] text-black [text-shadow:0_0_30px_rgba(255,255,255,0.3)] md:text-6xl">
+            The operating system for modern healthcare
           </h1>
-          <p className="max-w-xl text-base leading-7 text-slate-600">
-            CIGALI unifies patients, appointments, pharmacy, and operations in one secure platform designed for
-            multi-tenant healthcare providers.
+          <p className="max-w-xl text-base leading-7 text-black/70">
+            CIGALI unifies doctors, patients, labs, prescriptions, scheduling, and clinic economics in one intelligent,
+            multi-tenant platform designed for premium care providers.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Link to="/register">
-              <Button className="h-11 px-5">Start Free</Button>
+              <Button className="h-11 px-6">Start Free</Button>
             </Link>
             <a href="#demo">
-              <Button variant="secondary" className="h-11 px-5">
-                View Demo
-              </Button>
+              <Button variant="secondary" className="h-11 px-6">View Demo</Button>
             </a>
           </div>
         </div>
 
-        <Card className="border-white/70 bg-gradient-to-b from-white to-slate-50/70 p-4 md:p-5">
-          <div className="rounded-xl border border-borderSoft bg-white p-4 shadow-soft">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm font-semibold text-slate-900">CIGALI Dashboard</p>
-              <Badge variant="neutral">Live Preview</Badge>
+        <div className="relative min-h-[380px] [transform:perspective(2000px)_rotateX(8deg)]">
+          <div className="glass-luxury absolute left-2 top-8 w-[64%] p-4 shadow-depth1 animate-floating">
+            <p className="text-xs uppercase tracking-wide text-black/60">Doctor Workspace</p>
+            <p className="mt-2 text-2xl font-semibold text-black">28 appointments</p>
+            <p className="mt-1 text-sm text-black/70">Urgent alerts: 4</p>
+          </div>
+          <div className="glass-luxury absolute right-0 top-20 w-[58%] p-4 shadow-depth2 [animation:floating_11s_ease-in-out_infinite]">
+            <p className="text-xs uppercase tracking-wide text-black/60">Revenue</p>
+            <p className="mt-2 text-2xl font-semibold text-black">$128,430</p>
+            <div className="mt-3 h-16 rounded-[18px] border border-white/40 bg-white/70 p-2">
+              <div className="h-full w-full rounded-[14px] border border-white/40 bg-gradient-to-r from-cobalt/40 via-secondary-500/20 to-primary-500/40" />
             </div>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">Patients</p>
-                <p className="mt-1 text-xl font-semibold text-slate-900">1,284</p>
+          </div>
+          <div className="glass-luxury absolute bottom-2 left-[18%] w-[72%] p-4 shadow-depth3 [animation:floating_13s_ease-in-out_infinite]">
+            <p className="text-xs uppercase tracking-wide text-black/60">Clinical Timeline</p>
+            <div className="mt-3 space-y-2">
+              <div className="flex items-center justify-between rounded-[18px] border border-white/40 bg-white/70 px-3 py-2">
+                <span className="text-sm text-black">CBC Result</span>
+                <span className="text-xs text-cobalt">Abnormal</span>
               </div>
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">Appointments</p>
-                <p className="mt-1 text-xl font-semibold text-slate-900">342</p>
-              </div>
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-3">
-                <p className="text-xs text-slate-500">Medication</p>
-                <p className="mt-1 text-xl font-semibold text-slate-900">98%</p>
-              </div>
-            </div>
-
-            <div className="mt-3 rounded-xl border border-borderSoft bg-slate-50 p-3">
-              <p className="text-xs text-slate-500">Today</p>
-              <div className="mt-2 grid gap-2">
-                <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2">
-                  <p className="text-sm text-slate-700">09:30 • Patient Follow-up</p>
-                  <Badge variant="success">Confirmed</Badge>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-white px-3 py-2">
-                  <p className="text-sm text-slate-700">12:00 • Pharmacy Stock Check</p>
-                  <Badge variant="info">In Progress</Badge>
-                </div>
+              <div className="flex items-center justify-between rounded-[18px] border border-white/40 bg-white/70 px-3 py-2">
+                <span className="text-sm text-black">Follow-up Scheduled</span>
+                <span className="text-xs text-secondary-600">In 4 days</span>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       </section>
 
-      <section className="mt-16">
-        <p className="text-center text-sm font-medium text-slate-500">
-          Trusted by forward-thinking healthcare providers
-        </p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          {['Clinics', 'Pharmacies', 'Medical Centers'].map((label) => (
-            <div
-              key={label}
-              className="flex h-14 items-center justify-center rounded-xl border border-borderSoft bg-white text-sm font-semibold text-slate-600 shadow-soft"
-            >
-              {label}
-            </div>
-          ))}
-        </div>
+      <section className="mt-10 grid gap-4 md:grid-cols-3">
+        {['Clinics', 'Pharmacies', 'Medical Centers'].map((label) => (
+          <div key={label} className="glass-luxury rounded-[32px] px-5 py-4 text-center text-sm font-semibold text-black/85">{label}</div>
+        ))}
       </section>
 
       <section id="features" className="mt-16">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900">Built for real healthcare operations</h2>
-          <p className="mt-2 text-slate-600">
-            A premium operational surface for providers who need reliability, clarity, and speed.
-          </p>
+        <div className="mb-6 max-w-2xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-black">Luxury-grade clinical operations, engineered for speed</h2>
+          <p className="mt-2 text-black/65">Designed for practices that demand medical precision and business clarity.</p>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           {featureCards.map((feature) => (
-            <Card key={feature.title} className="transition-all duration-200 hover:-translate-y-px hover:shadow-elevate">
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-borderSoft bg-slate-50 text-lg">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900">{feature.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
+            <Card key={feature.title} className="rounded-[32px] bg-white/70 p-6">
+              <h3 className="text-lg font-semibold text-black">{feature.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-black/70">{feature.description}</p>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="mt-16">
-        <Card className="overflow-hidden p-0">
-          <div className="grid gap-0 md:grid-cols-2">
-            <div className="border-b border-slate-100 p-6 md:border-b-0 md:border-r">
-              <p className="text-xs font-semibold uppercase tracking-wide text-primary-600">Security</p>
-              <h3 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">Security by architecture, not add-ons.</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                CIGALI follows a tenant-first model that keeps provider data isolated with role-based controls and
-                secure session handling.
-              </p>
-            </div>
+      <section className="mt-16 grid gap-4 md:grid-cols-2">
+        <Card className="rounded-[32px] p-6">
+          <p className="text-xs uppercase tracking-wide text-black/60">Holographic Analytics</p>
+          <h3 className="mt-2 text-2xl font-semibold text-black">Clinical and business telemetry in one signal plane</h3>
+          <div className="mt-5 rounded-[24px] border border-white/40 bg-white/70 p-4">
+            <svg viewBox="0 0 360 120" className="h-28 w-full">
+              <polyline fill="none" stroke="rgba(17,24,39,0.65)" strokeWidth="1.5" points="0,90 40,72 80,76 120,56 160,62 200,42 240,50 280,32 320,40 360,22" />
+              {[40, 120, 200, 280, 360].map((x) => (
+                <circle key={x} cx={x} cy={x === 360 ? 22 : x === 280 ? 32 : x === 200 ? 42 : x === 120 ? 56 : 72} r="3" fill="#2563EB" />
+              ))}
+            </svg>
+          </div>
+        </Card>
 
-            <div className="space-y-3 p-6">
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900">Tenant isolation</p>
-                <p className="mt-1 text-sm text-slate-600">Every resource is scoped to providerId for strict account boundaries.</p>
-              </div>
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900">JWT authentication</p>
-                <p className="mt-1 text-sm text-slate-600">Access tokens secure API sessions with middleware-based verification.</p>
-              </div>
-              <div className="rounded-xl border border-borderSoft bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-900">Encrypted storage</p>
-                <p className="mt-1 text-sm text-slate-600">Passwords are hashed before storage and secrets are environment-managed.</p>
-              </div>
-            </div>
+        <Card className="rounded-[32px] p-6">
+          <p className="text-xs uppercase tracking-wide text-black/60">Security</p>
+          <h3 className="mt-2 text-2xl font-semibold text-black">Trusted architecture for regulated healthcare operations</h3>
+          <div className="mt-4 space-y-2">
+            <div className="rounded-[20px] border border-white/40 bg-white/70 p-3 text-sm text-black/80">Tenant isolation by provider scope</div>
+            <div className="rounded-[20px] border border-white/40 bg-white/70 p-3 text-sm text-black/80">JWT auth with role-based permissions</div>
+            <div className="rounded-[20px] border border-white/40 bg-white/70 p-3 text-sm text-black/80">Encrypted credential storage and secret-managed configs</div>
           </div>
         </Card>
       </section>
 
       <section id="demo" className="mt-16">
-        <Card>
-          <div className="grid gap-6 md:grid-cols-[1.3fr_1fr] md:items-center">
+        <Card className="rounded-[32px] p-6">
+          <div className="grid gap-6 md:grid-cols-[1.2fr_1fr] md:items-center">
             <div>
-              <h3 className="text-2xl font-semibold tracking-tight text-slate-900">Try the live demo instantly</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Use demo accounts to explore the product experience without setup.
-              </p>
+              <h3 className="text-2xl font-semibold text-black">Instant demo access</h3>
+              <p className="mt-2 text-sm text-black/65">Use seeded accounts to enter the full CIGALI experience immediately.</p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-borderSoft bg-slate-50 p-4">
-                  <p className="text-xs uppercase tracking-wide text-slate-500">Doctor Demo</p>
-                  <p className="mt-2 text-sm font-medium text-slate-900">email: demo@cigali.com</p>
-                  <p className="text-sm font-medium text-slate-900">password: password123</p>
+                <div className="rounded-[20px] border border-white/40 bg-white/70 p-4">
+                  <p className="text-xs uppercase tracking-wide text-black/60">Doctor Demo</p>
+                  <p className="mt-2 text-sm font-medium text-black">demo@cigali.com</p>
+                  <p className="text-sm font-medium text-black">password123</p>
                 </div>
-                <div className="rounded-xl border border-borderSoft bg-slate-50 p-4">
-                  <p className="text-xs uppercase tracking-wide text-slate-500">Admin Demo</p>
-                  <p className="mt-2 text-sm font-medium text-slate-900">email: admin@cigali.com</p>
-                  <p className="text-sm font-medium text-slate-900">password: password123</p>
+                <div className="rounded-[20px] border border-white/40 bg-white/70 p-4">
+                  <p className="text-xs uppercase tracking-wide text-black/60">Admin Demo</p>
+                  <p className="mt-2 text-sm font-medium text-black">admin@cigali.com</p>
+                  <p className="text-sm font-medium text-black">password123</p>
                 </div>
               </div>
             </div>
@@ -232,12 +179,7 @@ export const HomePage = () => {
               <Button className="h-11 w-full" onClick={() => void handleDemoLogin('doctor')} disabled={demoLoadingType !== null}>
                 {demoLoadingType === 'doctor' ? 'Signing in...' : 'Login as Demo Doctor'}
               </Button>
-              <Button
-                className="h-11 w-full"
-                variant="secondary"
-                onClick={() => void handleDemoLogin('admin')}
-                disabled={demoLoadingType !== null}
-              >
+              <Button className="h-11 w-full" variant="secondary" onClick={() => void handleDemoLogin('admin')} disabled={demoLoadingType !== null}>
                 {demoLoadingType === 'admin' ? 'Signing in...' : 'Login as Demo Admin'}
               </Button>
               {demoError && <p className="mt-2 text-sm text-rose-600">{demoError}</p>}
@@ -247,47 +189,40 @@ export const HomePage = () => {
       </section>
 
       <section id="pricing" className="mt-16">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-900">Pricing for every stage of care delivery</h2>
-          <p className="mt-2 text-slate-600">Simple plans with enterprise-grade architecture from day one.</p>
+        <div className="mb-6 max-w-2xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-black">Plans for elite care teams and healthcare networks</h2>
+          <p className="mt-2 text-black/65">Start lean, scale to multi-site operations without changing platforms.</p>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {pricingPlans.map((plan) => (
-            <Card
-              key={plan.name}
-              className={plan.highlighted ? 'border-primary-200 bg-primary-50/50 shadow-elevate' : ''}
-            >
+            <Card key={plan.name} className={plan.highlighted ? 'cigali-glow rounded-[32px] border-cobalt/40' : 'rounded-[32px]'}>
               {plan.highlighted && <Badge variant="info">Most Popular</Badge>}
-              <h3 className="mt-2 text-lg font-semibold text-slate-900">{plan.name}</h3>
-              <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">{plan.price}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{plan.description}</p>
-              <Button className="mt-6 w-full" variant={plan.highlighted ? 'primary' : 'secondary'}>
-                Choose {plan.name}
-              </Button>
+              <h3 className="mt-2 text-lg font-semibold text-black">{plan.name}</h3>
+              <p className="mt-2 text-3xl font-semibold tracking-tight text-black">{plan.price}</p>
+              <p className="mt-3 text-sm leading-6 text-black/70">{plan.description}</p>
+              <Button className="mt-6 w-full" variant={plan.highlighted ? 'primary' : 'secondary'}>Choose {plan.name}</Button>
             </Card>
           ))}
         </div>
       </section>
 
       <section className="mt-16">
-        <Card className="border-primary-100 bg-gradient-to-r from-primary-50 to-white">
+        <Card className="rounded-[32px] p-6">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
-                Start running your healthcare practice on modern infrastructure.
-              </h2>
+              <h2 className="text-2xl font-semibold tracking-tight text-black">Start running your healthcare practice on modern infrastructure.</h2>
+              <p className="mt-2 text-sm text-black/65">Premium clinical operations, concierge-ready workflows, and business intelligence built in.</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link to="/register">
-                <Button className="h-11 px-5">Start Free</Button>
-              </Link>
-              <a href="mailto:sales@cigali.com">
-                <Button variant="secondary" className="h-11 px-5">
-                  Book Demo
-                </Button>
-              </a>
+              <Link to="/register"><Button className="h-11 px-5">Start Free</Button></Link>
+              <a href="mailto:sales@cigali.com"><Button variant="secondary" className="h-11 px-5">Book Demo</Button></a>
             </div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {services.map((service) => (
+              <Badge key={service} variant="neutral">{service}</Badge>
+            ))}
           </div>
         </Card>
       </section>

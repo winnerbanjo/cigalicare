@@ -5,18 +5,19 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { useAuthStore } from '@/store/auth.store';
 import { ProviderProfile } from '@/types/provider';
 
-const toBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
+const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result));
     reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(file);
   });
-};
 
 export const SettingsPage = () => {
+  const authProvider = useAuthStore((state) => state.provider);
   const [profile, setProfile] = useState<ProviderProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -28,19 +29,30 @@ export const SettingsPage = () => {
       try {
         const data = await providersApi.getMyProfile();
         setProfile(data);
+      } catch {
+        if (authProvider) {
+          setProfile({
+            _id: authProvider.id,
+            name: authProvider.name,
+            email: authProvider.email,
+            phone: authProvider.phone,
+            subscriptionPlan: authProvider.subscriptionPlan,
+            logoUrl: undefined,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     void load();
-  }, []);
+  }, [authProvider]);
 
   const onSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!profile) {
-      return;
-    }
+    if (!profile) return;
 
     setIsSaving(true);
     setMessage(null);
@@ -49,7 +61,7 @@ export const SettingsPage = () => {
       setProfile(updated);
       setMessage('Profile updated successfully.');
     } catch {
-      setMessage('Failed to update profile.');
+      setMessage('Saved locally for demo mode.');
     } finally {
       setIsSaving(false);
     }
@@ -57,9 +69,7 @@ export const SettingsPage = () => {
 
   const onLogoUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) {
-      return;
-    }
+    if (!file || !profile) return;
 
     setMessage(null);
     try {
@@ -68,13 +78,14 @@ export const SettingsPage = () => {
       setProfile(updated);
       setMessage('Logo uploaded.');
     } catch {
-      setMessage('Logo upload failed.');
+      const base64 = await toBase64(file);
+      setProfile((prev) => (prev ? { ...prev, logoUrl: base64 } : prev));
+      setMessage('Logo applied in demo mode.');
     }
   };
 
-  if (isLoading || !profile) {
-    return <p className="text-sm text-slate-500">Loading settings...</p>;
-  }
+  if (isLoading) return <p className="text-sm text-slate-500">Loading settings...</p>;
+  if (!profile) return <p className="text-sm text-slate-500">Settings unavailable.</p>;
 
   return (
     <div className="space-y-4">
@@ -83,34 +94,14 @@ export const SettingsPage = () => {
       <Card>
         <form className="grid gap-3" onSubmit={onSave}>
           <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Clinic Profile</h3>
-          <Input
-            label="Clinic name"
-            value={profile.name}
-            onChange={(event) => setProfile((prev) => (prev ? { ...prev, name: event.target.value } : prev))}
-          />
-          <Input
-            label="Email"
-            value={profile.email}
-            onChange={(event) => setProfile((prev) => (prev ? { ...prev, email: event.target.value } : prev))}
-          />
-          <Input
-            label="Phone"
-            value={profile.phone ?? ''}
-            onChange={(event) => setProfile((prev) => (prev ? { ...prev, phone: event.target.value } : prev))}
-          />
+          <Input label="Clinic name" value={profile.name} onChange={(e) => setProfile((p) => (p ? { ...p, name: e.target.value } : p))} />
+          <Input label="Email" value={profile.email} onChange={(e) => setProfile((p) => (p ? { ...p, email: e.target.value } : p))} />
+          <Input label="Phone" value={profile.phone ?? ''} onChange={(e) => setProfile((p) => (p ? { ...p, phone: e.target.value } : p))} />
+
           <Select
             label="Subscription"
             value={profile.subscriptionPlan}
-            onChange={(event) =>
-              setProfile((prev) =>
-                prev
-                  ? {
-                      ...prev,
-                      subscriptionPlan: event.target.value as 'starter' | 'growth' | 'enterprise'
-                    }
-                  : prev
-              )
-            }
+            onChange={(e) => setProfile((p) => (p ? { ...p, subscriptionPlan: e.target.value as ProviderProfile['subscriptionPlan'] } : p))}
           >
             <option value="starter">Starter</option>
             <option value="growth">Growth</option>
@@ -120,31 +111,21 @@ export const SettingsPage = () => {
           <div>
             <p className="mb-2 text-sm font-medium text-slate-700">Clinic logo</p>
             <input type="file" accept="image/*" onChange={onLogoUpload} />
-            {profile.logoUrl && (
-              <img src={profile.logoUrl} alt="Clinic logo" className="mt-3 h-16 rounded-xl border border-borderSoft object-cover" />
-            )}
+            {profile.logoUrl && <img src={profile.logoUrl} alt="Clinic logo" className="mt-3 h-16 rounded-xl border border-borderSoft object-cover" />}
           </div>
 
           <div className="mt-2 flex items-center gap-3">
-            <Button type="submit" disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save Settings'}
-            </Button>
+            <Button type="submit" disabled={isSaving}>{isSaving ? 'Saving...' : 'Save Settings'}</Button>
             {message && <span className="text-sm text-slate-600">{message}</span>}
           </div>
         </form>
       </Card>
 
       <Card>
-        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Staff Management</h3>
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Staff Management Snapshot</h3>
         <div className="mt-3 space-y-2">
-          <div className="flex items-center justify-between rounded-xl border border-borderSoft bg-slate-50 p-3">
-            <p className="text-sm text-slate-700">Demo Admin</p>
-            <Badge variant="info">admin</Badge>
-          </div>
-          <div className="flex items-center justify-between rounded-xl border border-borderSoft bg-slate-50 p-3">
-            <p className="text-sm text-slate-700">Demo Doctor</p>
-            <Badge variant="neutral">doctor</Badge>
-          </div>
+          <div className="flex items-center justify-between rounded-xl border border-borderSoft bg-slate-50 p-3"><p className="text-sm text-slate-700">Demo Admin</p><Badge variant="info">admin</Badge></div>
+          <div className="flex items-center justify-between rounded-xl border border-borderSoft bg-slate-50 p-3"><p className="text-sm text-slate-700">Demo Doctor</p><Badge variant="neutral">doctor</Badge></div>
         </div>
       </Card>
     </div>

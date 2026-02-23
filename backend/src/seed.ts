@@ -81,13 +81,13 @@ const ensureDemoUser = async (params: {
 
 const seedPatients = async (providerId: string) => {
   const existing = await PatientModel.countDocuments({ providerId });
-  if (existing >= 250) {
+  if (existing >= 300) {
     return;
   }
 
   await PatientModel.deleteMany({ providerId });
 
-  const docs = Array.from({ length: 250 }, (_, i) => {
+  const docs = Array.from({ length: 300 }, (_, i) => {
     const firstName = firstNames[i % firstNames.length];
     const lastName = randomItem(lastNames);
     const full = `${firstName}-${lastName}-${i}`;
@@ -282,7 +282,7 @@ export const seedIfEmpty = async (): Promise<void> => {
   await seedInvoices(provider.id);
 
   // eslint-disable-next-line no-console
-  console.log('[CIGALI] Rich demo seed ready: 250 patients, 400 appointments, 120 medications, invoices, 10 staff.');
+  console.log('[CIGALI] Rich demo seed ready: 300 patients, 400 appointments, 120 medications, invoices, 10 staff.');
 };
 
 export const verifyDemoLoginPipeline = async (): Promise<void> => {
