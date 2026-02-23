@@ -1,8 +1,6 @@
 import { app } from './app';
 import { connectDb } from './config/db';
-import { env } from './config/env';
 import { ensureDemoUsers, seedIfEmpty, verifyDemoLoginPipeline } from './seed';
-import { findAvailablePort } from './utils/port';
 
 const startServer = async (): Promise<void> => {
   try {
@@ -14,10 +12,10 @@ const startServer = async (): Promise<void> => {
 
     await verifyDemoLoginPipeline();
 
-    const selectedPort = await findAvailablePort(env.port, env.bindHost);
-    app.listen(selectedPort, env.bindHost, () => {
+    const PORT = process.env.PORT || 5001;
+    app.listen(Number(PORT), '0.0.0.0', () => {
       // eslint-disable-next-line no-console
-      console.log(`[CIGALI] API listening on http://${env.bindHost}:${selectedPort}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
     // eslint-disable-next-line no-console
