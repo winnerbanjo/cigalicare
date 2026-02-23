@@ -8,7 +8,7 @@ import { useCigaliData } from '@/hooks/useCigaliData';
 import { useAuthStore } from '@/store/auth.store';
 import { cn } from '@/utils/cn';
 
-const navItems = [
+const baseNavItems = [
   { label: 'Workspace', to: '/app' },
   { label: 'Patients', to: '/app/patients' },
   { label: 'Appointments', to: '/app/appointments' },
@@ -25,7 +25,8 @@ const pageTitleByPath: Record<string, string> = {
   '/app/inventory': 'Inventory',
   '/app/billing': 'Billing',
   '/app/staff': 'Staff',
-  '/app/settings': 'Settings'
+  '/app/settings': 'Settings',
+  '/admin': 'Admin Portal'
 };
 
 export const DashboardLayout = () => {
@@ -71,6 +72,7 @@ export const DashboardLayout = () => {
     navigate('/login', { replace: true });
   };
 
+  const navItems = user?.role === 'admin' ? [...baseNavItems, { label: 'Admin', to: '/admin' }] : baseNavItems;
   const pageTitle = pageTitleByPath[location.pathname] ?? 'Workspace';
 
   const results = useMemo(() => {

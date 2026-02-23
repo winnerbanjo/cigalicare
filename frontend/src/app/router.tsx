@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { MarketingLayout } from '@/layouts/MarketingLayout';
+import { AdminPage } from '@/pages/admin/AdminPage';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { AppointmentsPage } from '@/pages/appointments/AppointmentsPage';
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
     element: <RegisterPage />
   },
   {
+    path: '/dashboard',
+    element: <Navigate to="/app" replace />
+  },
+  {
     element: <ProtectedRoute />,
     children: [
       {
@@ -51,6 +56,16 @@ export const router = createBrowserRouter([
           { path: 'staff', element: <StaffPage /> },
           { path: 'settings', element: <SettingsPage /> }
         ]
+      }
+    ]
+  },
+  {
+    element: <ProtectedRoute allowedRoles={['admin']} redirectTo="/dashboard" />,
+    children: [
+      {
+        path: '/admin',
+        element: <DashboardLayout />,
+        children: [{ index: true, element: <AdminPage /> }]
       }
     ]
   },
