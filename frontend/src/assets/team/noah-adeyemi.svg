@@ -1,0 +1,6 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="320" rx="36" fill="#EDF4FB"/>
+  <circle cx="160" cy="122" r="64" fill="#8EB5E9"/>
+  <path d="M72 286C80 232 118 200 160 200C202 200 240 232 248 286" fill="#2563EB"/>
+  <text x="160" y="304" text-anchor="middle" fill="#1F2937" font-size="14" font-family="Inter, Arial">Noah Adeyemi</text>
+</svg>

@@ -19,6 +19,9 @@ export const MarketingLayout = () => {
               <a href="/#pricing" className="rounded-full px-3 py-2 text-sm font-medium text-black/60 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] hover:bg-white hover:text-black">
                 Pricing
               </a>
+              <Link to="/about" className="rounded-full px-3 py-2 text-sm font-medium text-black/60 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] hover:bg-white hover:text-black">
+                About
+              </Link>
               <Link to="/login" className="rounded-full px-3 py-2 text-sm font-medium text-black/60 transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] hover:bg-white hover:text-black">
                 Login
               </Link>
@@ -56,7 +59,7 @@ export const MarketingLayout = () => {
           <div>
             <p className="text-sm font-semibold text-black">Company</p>
             <ul className="mt-3 space-y-2 text-sm text-black/60">
-              <li>About</li>
+              <li><Link className="hover:text-black" to="/about">About</Link></li>
               <li>Careers</li>
               <li>Contact</li>
             </ul>

@@ -223,9 +223,29 @@ export const PatientsPage = () => {
         </Table>
       )}
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={editing ? 'Edit Patient' : 'New Patient'}>
-        <form className="grid gap-3" onSubmit={onSubmit}>
-          <div className="grid gap-3 md:grid-cols-2">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={editing ? 'Edit Patient' : 'New Patient'}
+        maxWidthClassName="max-w-4xl"
+        footer={
+          <div className="flex items-center justify-between gap-2">
+            <Badge variant="neutral">Multi-tenant patient record</Badge>
+            <div className="flex gap-2">
+              <Button type="button" variant="secondary" onClick={closeModal}>
+                Cancel
+              </Button>
+              <Button type="submit" form="patient-form">
+                {editing ? 'Update' : 'Create'}
+              </Button>
+            </div>
+          </div>
+        }
+      >
+        <form id="patient-form" className="grid gap-6" onSubmit={onSubmit}>
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Personal Info</h4>
+            <div className="grid gap-4 md:grid-cols-2">
             <Input
               label="First name"
               value={form.firstName}
@@ -240,7 +260,7 @@ export const PatientsPage = () => {
             />
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             <Input
               label="Email"
               type="email"
@@ -254,7 +274,7 @@ export const PatientsPage = () => {
             />
           </div>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             <Input
               label="Date of birth"
               type="date"
@@ -279,32 +299,40 @@ export const PatientsPage = () => {
               <option value="O-">O-</option>
             </Select>
           </div>
+          </section>
 
-          <Input
-            label="Insurance provider"
-            value={form.insuranceProvider}
-            onChange={(event) => setForm((prev) => ({ ...prev, insuranceProvider: event.target.value }))}
-          />
-          <Select label="Patient Tier" value={form.tier || 'standard'} onChange={(event) => setForm((prev) => ({ ...prev, tier: event.target.value as PatientInput['tier'] }))}>
-            <option value="standard">Standard</option>
-            <option value="priority">Priority</option>
-            <option value="vip">VIP</option>
-          </Select>
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Medical Info</h4>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                label="Insurance provider"
+                value={form.insuranceProvider}
+                onChange={(event) => setForm((prev) => ({ ...prev, insuranceProvider: event.target.value }))}
+              />
+              <Select label="Patient Tier" value={form.tier || 'standard'} onChange={(event) => setForm((prev) => ({ ...prev, tier: event.target.value as PatientInput['tier'] }))}>
+                <option value="standard">Standard</option>
+                <option value="priority">Priority</option>
+                <option value="vip">VIP</option>
+              </Select>
+            </div>
 
-          <div className="grid gap-3 md:grid-cols-2">
-            <Input
-              label="Allergies (comma separated)"
-              value={allergiesText}
-              onChange={(event) => setAllergiesText(event.target.value)}
-            />
-            <Input
-              label="Chronic conditions (comma separated)"
-              value={conditionsText}
-              onChange={(event) => setConditionsText(event.target.value)}
-            />
-          </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input
+                label="Allergies (comma separated)"
+                value={allergiesText}
+                onChange={(event) => setAllergiesText(event.target.value)}
+              />
+              <Input
+                label="Chronic conditions (comma separated)"
+                value={conditionsText}
+                onChange={(event) => setConditionsText(event.target.value)}
+              />
+            </div>
+          </section>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Contact & Notes</h4>
+            <div className="grid gap-4 md:grid-cols-3">
             <Input
               label="Emergency contact name"
               value={form.emergencyContact?.name || ''}
@@ -337,31 +365,22 @@ export const PatientsPage = () => {
             />
           </div>
 
-          <Input
-            label="Photo URL"
-            value={form.photoUrl}
-            onChange={(event) => setForm((prev) => ({ ...prev, photoUrl: event.target.value }))}
-            placeholder="Auto-generated from name if empty"
-          />
-
-          <label className="flex flex-col gap-2 text-sm">
-            <span className="font-medium text-slate-700">Notes</span>
-            <textarea
-              className="min-h-24 rounded-xl border border-borderSoft px-3 py-2 outline-none focus:border-primary-500"
-              value={form.notes}
-              onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))}
+            <Input
+              label="Photo URL"
+              value={form.photoUrl}
+              onChange={(event) => setForm((prev) => ({ ...prev, photoUrl: event.target.value }))}
+              placeholder="Auto-generated from name if empty"
             />
-          </label>
 
-          <div className="mt-2 flex items-center justify-between gap-2">
-            <Badge variant="neutral">Multi-tenant patient record</Badge>
-            <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={closeModal}>
-                Cancel
-              </Button>
-              <Button type="submit">{editing ? 'Update' : 'Create'}</Button>
-            </div>
-          </div>
+            <label className="flex flex-col gap-2 text-sm">
+              <span className="font-medium text-black/80">Notes</span>
+              <textarea
+                className="min-h-24 rounded-[20px] border border-white/30 bg-white/70 px-3 py-3 outline-none transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] focus:border-primary-500 focus:ring-2 focus:ring-primary-200"
+                value={form.notes}
+                onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))}
+              />
+            </label>
+          </section>
         </form>
       </Modal>
     </div>

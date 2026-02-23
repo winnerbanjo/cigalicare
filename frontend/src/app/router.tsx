@@ -5,6 +5,7 @@ import { MarketingLayout } from '@/layouts/MarketingLayout';
 import { LoginPage } from '@/pages/auth/LoginPage';
 import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { AppointmentsPage } from '@/pages/appointments/AppointmentsPage';
+import { AboutPage } from '@/pages/AboutPage';
 import { BillingPage } from '@/pages/billing/BillingPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { InventoryPage } from '@/pages/inventory/InventoryPage';
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
     element: <MarketingLayout />,
     children: [
       { path: '/', element: <HomePage /> },
+      { path: '/about', element: <AboutPage /> },
       { path: '/features', element: <FeaturesPage /> },
       { path: '/pricing', element: <PricingPage /> }
     ]

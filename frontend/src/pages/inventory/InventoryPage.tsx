@@ -164,29 +164,46 @@ export const InventoryPage = () => {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={editing ? 'Edit Medication' : 'Add Medication'}>
-        <form className="grid gap-3" onSubmit={onSubmit}>
-          <Input label="Medication name" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required />
-          <div className="grid gap-3 md:grid-cols-2">
-            <Input label="Category" value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))} />
-            <Input label="Supplier" value={form.supplier} onChange={(e) => setForm((p) => ({ ...p, supplier: e.target.value }))} />
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            <Input label="Stock" type="number" value={String(form.stock ?? 0)} onChange={(e) => setForm((p) => ({ ...p, stock: Number(e.target.value) }))} min={0} required />
-            <Input label="Cost Price" type="number" value={String(form.costPrice ?? 0)} onChange={(e) => setForm((p) => ({ ...p, costPrice: Number(e.target.value) }))} min={0} step="0.01" required />
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            <Input label="Selling Price" type="number" value={String(form.sellingPrice ?? 0)} onChange={(e) => setForm((p) => ({ ...p, sellingPrice: Number(e.target.value), price: Number(e.target.value) }))} min={0} step="0.01" required />
-            <Input label="Expiry Date" type="date" value={form.expiryDate || ''} onChange={(e) => setForm((p) => ({ ...p, expiryDate: e.target.value }))} />
-          </div>
-          <label className="text-sm">
-            <span className="font-medium text-slate-700">Description</span>
-            <textarea className="mt-2 min-h-20 w-full rounded-xl border border-borderSoft px-3 py-2" value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
-          </label>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={editing ? 'Edit Medication' : 'Add Medication'}
+        footer={
           <div className="flex justify-end gap-2">
             <Button type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
-            <Button type="submit">{editing ? 'Update' : 'Create'}</Button>
+            <Button type="submit" form="medication-form">{editing ? 'Update' : 'Create'}</Button>
           </div>
+        }
+      >
+        <form id="medication-form" className="grid gap-6" onSubmit={onSubmit}>
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Medication Details</h4>
+            <Input label="Medication name" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required />
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input label="Category" value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))} />
+              <Input label="Supplier" value={form.supplier} onChange={(e) => setForm((p) => ({ ...p, supplier: e.target.value }))} />
+            </div>
+          </section>
+
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Stock & Pricing</h4>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input label="Stock" type="number" value={String(form.stock ?? 0)} onChange={(e) => setForm((p) => ({ ...p, stock: Number(e.target.value) }))} min={0} required />
+              <Input label="Cost Price" type="number" value={String(form.costPrice ?? 0)} onChange={(e) => setForm((p) => ({ ...p, costPrice: Number(e.target.value) }))} min={0} step="0.01" required />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input label="Selling Price" type="number" value={String(form.sellingPrice ?? 0)} onChange={(e) => setForm((p) => ({ ...p, sellingPrice: Number(e.target.value), price: Number(e.target.value) }))} min={0} step="0.01" required />
+              <Input label="Expiry Date" type="date" value={form.expiryDate || ''} onChange={(e) => setForm((p) => ({ ...p, expiryDate: e.target.value }))} />
+            </div>
+          </section>
+
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Notes</h4>
+            <label className="text-sm">
+              <span className="font-medium text-black/80">Description</span>
+              <textarea className="mt-2 min-h-20 w-full rounded-[20px] border border-white/30 bg-white/70 px-3 py-3 outline-none transition-all duration-500 [transition-timing-function:cubic-bezier(0.25,1,0.5,1)] focus:border-primary-500 focus:ring-2 focus:ring-primary-200" value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} />
+            </label>
+          </section>
         </form>
       </Modal>
     </div>

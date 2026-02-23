@@ -285,42 +285,53 @@ export const AppointmentsPage = () => {
 
       <CardTable loading={loading || isBusy} appointments={filteredAppointments} patientName={patientName} openEdit={openEdit} onFollowUp={createFollowUp} />
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title={editing ? 'Edit Appointment' : 'New Appointment'}>
-        <form className="grid gap-3" onSubmit={onSubmit}>
-          <Select label="Patient" value={form.patientId} onChange={(e) => setForm((p) => ({ ...p, patientId: e.target.value }))} required>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={editing ? 'Edit Appointment' : 'New Appointment'}
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
+            <Button type="submit" form="appointment-form">{editing ? 'Update' : 'Create'}</Button>
+          </div>
+        }
+      >
+        <form id="appointment-form" className="grid gap-6" onSubmit={onSubmit}>
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Patient & Schedule</h4>
+            <Select label="Patient" value={form.patientId} onChange={(e) => setForm((p) => ({ ...p, patientId: e.target.value }))} required>
             <option value="">Select patient</option>
             {patients.map((patient) => (
               <option key={patient._id} value={patient._id}>{patient.firstName} {patient.lastName}</option>
             ))}
           </Select>
 
-          <Input label="Date" type="datetime-local" value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} required />
-          <Input label="Reason" value={form.reason} onChange={(e) => setForm((p) => ({ ...p, reason: e.target.value }))} required />
+            <Input label="Date" type="datetime-local" value={form.date} onChange={(e) => setForm((p) => ({ ...p, date: e.target.value }))} required />
+            <Input label="Reason" value={form.reason} onChange={(e) => setForm((p) => ({ ...p, reason: e.target.value }))} required />
+          </section>
 
-          <Select label="Appointment Type" value={form.type} onChange={(e) => setForm((p) => ({ ...p, type: e.target.value as Appointment['type'] }))}>
-            <option value="consultation">Consultation</option>
-            <option value="follow_up">Follow-up</option>
-            <option value="surgery">Surgery</option>
-            <option value="lab_test">Lab test</option>
-          </Select>
+          <section className="grid gap-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-black/60">Clinical Assignment</h4>
+            <Select label="Appointment Type" value={form.type} onChange={(e) => setForm((p) => ({ ...p, type: e.target.value as Appointment['type'] }))}>
+              <option value="consultation">Consultation</option>
+              <option value="follow_up">Follow-up</option>
+              <option value="surgery">Surgery</option>
+              <option value="lab_test">Lab test</option>
+            </Select>
 
-          <Select label="Doctor Assignment" value={form.doctorAssigned || ''} onChange={(e) => setForm((p) => ({ ...p, doctorAssigned: e.target.value }))}>
-            <option value="">Assign doctor</option>
-            {doctorOptions.map((doc) => (
-              <option key={doc._id} value={doc.fullName}>{doc.fullName}</option>
-            ))}
-          </Select>
+            <Select label="Doctor Assignment" value={form.doctorAssigned || ''} onChange={(e) => setForm((p) => ({ ...p, doctorAssigned: e.target.value }))}>
+              <option value="">Assign doctor</option>
+              {doctorOptions.map((doc) => (
+                <option key={doc._id} value={doc.fullName}>{doc.fullName}</option>
+              ))}
+            </Select>
 
-          <Select label="Status" value={form.status} onChange={(e) => setForm((p) => ({ ...p, status: e.target.value as Appointment['status'] }))}>
-            <option value="scheduled">Scheduled</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancelled</option>
-          </Select>
-
-          <div className="mt-2 flex justify-end gap-2">
-            <Button type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
-            <Button type="submit">{editing ? 'Update' : 'Create'}</Button>
-          </div>
+            <Select label="Status" value={form.status} onChange={(e) => setForm((p) => ({ ...p, status: e.target.value as Appointment['status'] }))}>
+              <option value="scheduled">Scheduled</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </Select>
+          </section>
         </form>
       </Modal>
     </div>
